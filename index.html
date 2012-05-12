@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//MIP//DTD XHTML 1.0 Transitional Chess//EN"
-"http://mip.noekeon.org/HTMLTTChess/xhtml1-transitional-chess.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://mip.noekeon.org/HTMLTTChess">
+<!DOCTYPE html>
+<html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="Chess problems"/>
+    <meta name="keywords" content="chess,problems"/>
+    <meta name="author" content="Jose Vasconcellos"/>
     <title>Chess Quiz</title>
     <script type="text/javascript" src="html_tt_chess.js"></script>
     <link rel="stylesheet" type="text/css" href="html_tt_chess.css" />
@@ -11,14 +12,21 @@
 <script type="text/javascript" src="2002.js"></script>
 <script type="text/javascript">
 var count=0;
-var fontsize=36;
-var chesstag='<c:chess cstyle="font-size:36pt;" mode="color" dir="up">';
+var fontSize=36;
+if(typeof(Storage)!=="undefined") {
+    if(localStorage.lastBoard)
+        count = parseInt(localStorage.lastBoard);
+    if(localStorage.fontSize)
+        fontSize = parseInt(localStorage.fontSize);
+}
+var chesstag='<c:chess cstyle="font-size:'+fontSize.toString()+'pt;" mode="color" dir="up">';
 var border=false;
 
 function changeFont(sz)
 {
-    fontsize = fontsize + sz;
-    chesstag = chesstag.replace(/(.*font-size:)\d+(pt.*)/,'$1'+fontsize+'$2');
+    fontSize = fontSize + sz;
+    localStorage.fontSize = fontSize;
+    chesstag = chesstag.replace(/(.*font-size:)\d+(pt.*)/,'$1'+fontSize+'$2');
     ShowBoard();
 }
 
@@ -69,31 +77,29 @@ function ShowBoard() {
     document.getElementById('msg').innerHTML=msg+" to play and win!     ("+(count+1)+' of '+problems.length+')';
 }
 
-function PrevGame() {
-    count = count - 1;
+function GotoGame(n) {
+    count = n;
     if (count < 0)
         count = problems.length-1;
-    ShowBoard();
-}
-
-function NextGame() {
-    count = count + 1;
-    if (count >= problems.length)
+    else if (count >= problems.length)
         count = 0;
+    localStorage.lastBoard = count.toString();
+
     ShowBoard();
 }
 
 function RandomGame() {
-    count = Math.floor(Math.random() * (problems.length));
-    ShowBoard();
+    GotoGame(Math.floor(Math.random() * (problems.length)));
 }
 </script>
 
 </head>
 <body>
-<input id="button1" style="font-size:18pt;" type="button" onclick="PrevGame()" value="&#8592;" title="Previous" />
-<input id="button2" style="font-size:18pt;" type="button" onclick="NextGame()" value="&#8594;" title="Next" />
-<input id="button3" style="font-size:18pt;" type="button" onclick="RandomGame()" value="&#8599;" title="Random" />
+<input id="button0" style="font-size:18pt;" type="button" onclick="GotoGame(0)" value="&#8606;" title="First" />
+<input id="button1" style="font-size:18pt;" type="button" onclick="GotoGame(count-1)" value="&#8592;" title="Previous" />
+<input id="button2" style="font-size:18pt;" type="button" onclick="GotoGame(count+1)" value="&#8594;" title="Next" />
+<input id="button3" style="font-size:18pt;" type="button" onclick="GotoGame(problems.length-1)" value="&#8608;" title="Last" />
+<input id="button4" style="font-size:18pt;" type="button" onclick="RandomGame()" value="&#8599;" title="Random" />
 <p/>
 
 <div id="msg"></div>
