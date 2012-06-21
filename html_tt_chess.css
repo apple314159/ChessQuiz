@@ -81,7 +81,8 @@
 
 @font-face {
     font-family: "Chess Merida Unicode";
-    src: url('chessmerida.ttf');
+    src: url('chessmerida.eot');
+    src: url('chessmerida.eot?#iefix') format('embedded-opentype'), url('chessmerida.woff') format('woff'), url('chessmerida.ttf') format('truetype');
 }
 
 table.bwchess, table.chess {

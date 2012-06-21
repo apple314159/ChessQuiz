@@ -33,8 +33,6 @@
  *==============================================================================
  */
 
-var XMLNS="c:";
-
 var ATTR_BORDER			= "border";				//"solid", "double", "square", "round", "pad", origin, nseo
 var VALUE_BORDER_SOLID	= "solid";
 var VALUE_BORDER_DOUBLE	= "double";
@@ -572,7 +570,7 @@ function ChessBoard(_fenCode,_attrBorder,_colorMode,_attrStyle,_attrClass,_board
 function parseChess()
 {
 	var contextColorMode = true;
-	var chessElt=document.getElementsByTagName((detectIE()? "" : XMLNS) + "chess");
+	var chessElt=document.getElementsByTagName("chess");
 
 	for (idx=0; idx<chessElt.length;idx++)
 	{

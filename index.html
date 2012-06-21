@@ -19,7 +19,7 @@ if(typeof(Storage)!=="undefined") {
     if(localStorage.fontSize)
         fontSize = parseInt(localStorage.fontSize);
 }
-var chesstag='<c:chess cstyle="font-size:'+fontSize.toString()+'pt;" mode="color" dir="up">';
+var chesstag='<chess cstyle="font-size:'+fontSize.toString()+'pt;" mode="color" dir="up">';
 var border=false;
 
 function changeFont(sz)
@@ -72,7 +72,7 @@ function ShowBoard() {
         setDir('down');
         msg = "Black";
     }
-    document.getElementById('board').innerHTML=chesstag+problems[count].replace(/(.*) (b|w) .*/,'$1')+'</c:chess>';
+    document.getElementById('board').innerHTML=chesstag+problems[count].replace(/(.*) (b|w) .*/,'$1')+'</chess>';
     parseChess();
     document.getElementById('msg').innerHTML=msg+" to play and win!     ("+(count+1)+' of '+problems.length+')';
 }
