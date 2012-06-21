@@ -13,7 +13,16 @@
 <script type="text/javascript">
 var count=0;
 var fontSize=36;
-if(typeof(Storage)!=="undefined") {
+
+function supports_html5_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null && localStorage !== undefined;
+  } catch (e) {
+    return false;
+  }
+}
+
+if(supports_html5_storage()) {
     if(localStorage.lastBoard)
         count = parseInt(localStorage.lastBoard);
     if(localStorage.fontSize)
