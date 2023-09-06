@@ -14,116 +14,21 @@
   <meta name="description" content="Chess problems"/>
   <meta name="keywords" content="chess,problems"/>
   <meta name="author" content="Jose Vasconcellos"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
+
   <title>Chess Quiz</title>
   <script type="text/javascript" src="html_tt_chess.js"></script>
   <link rel="stylesheet" type="text/css" href="html_tt_chess.css" />
 
   <script type="text/javascript" src="2002.js"></script>
-  <script type="text/javascript">
-    var count=0;
-    var fontSize=36;
-
-    function supports_html5_storage() {
-      try {
-        return 'localStorage' in window && window['localStorage'] !== null && localStorage !== undefined;
-      } catch (e) {
-        return false;
-      }
-    }
-
-    if(supports_html5_storage()) {
-        if(localStorage.lastBoard)
-            count = parseInt(localStorage.lastBoard);
-        if(localStorage.fontSize)
-            fontSize = parseInt(localStorage.fontSize);
-      function localStore(key, val) {
-        localStorage.setItem(key, val);
-      }
-    } else
-      function localStore(key, val) {
-      }
-
-    var chesstag='<chess cstyle="font-size:'+fontSize.toString()+'pt;" mode="color" dir="up">';
-    var border=false;
-
-    function changeFont(sz)
-    {
-        fontSize = fontSize + sz;
-        localStore('fontSize', fontSize);
-        chesstag = chesstag.replace(/(.*font-size:)\d+(pt.*)/,'$1'+fontSize+'$2');
-        ShowBoard();
-    }
-
-    function changeBorder(p)
-    {
-        var s;
-        if (p) {
-            s = /(.*)>/.exec(chesstag);
-            chesstag = s[1] + ' border="a1">';
-        } else {
-            s = /(.*) border="a1"(.*)/.exec(chesstag);
-            if (s)
-                chesstag = s[1] + s[2];
-        }
-        ShowBoard();
-    }
-
-    function changeMode(mode)
-    {
-        var s = /(.*")(bw|color)+(".*)/.exec(chesstag);
-        chesstag = s[1] + mode + s[3];
-        ShowBoard();
-    }
-
-    function setDir(dir)
-    {
-        var s = /(.*dir=")(up|down)+(".*)/.exec(chesstag);
-        chesstag = s[1] + dir + s[3];
-    }
-
-    function changeDir(dir)
-    {
-        setDir(dir)
-        ShowBoard();
-    }
-
-    function ShowBoard() {
-        var msg;
-        if (problems[count].search(' w ') != -1) {
-            setDir('up');
-            msg = "White";
-        } else {
-            setDir('down');
-            msg = "Black";
-        }
-        document.getElementById('board').innerHTML=chesstag+problems[count].replace(/(.*) (b|w) .*/,'$1')+'</chess>';
-        parseChess();
-        document.getElementById('msg').innerHTML=msg+" to play and win!     ("+(count+1)+' of '+problems.length+')';
-    }
-
-    function GotoGame(n) {
-        count = n;
-        if (count < 0)
-            count = problems.length-1;
-        else if (count >= problems.length)
-            count = 0;
-        localStore('lastBoard', count.toString());
-
-        ShowBoard();
-    }
-
-    function RandomGame() {
-        GotoGame(Math.floor(Math.random() * (problems.length)));
-    }
-  </script>
-
+  <script type="text/javascript" src="chessquiz.js"></script>
 </head>
 <body>
-  <input id="button0" style="font-size:18pt;" type="button" onclick="GotoGame(0)" value="&#8606;" title="First" />
-  <input id="button1" style="font-size:18pt;" type="button" onclick="GotoGame(count-1)" value="&#8592;" title="Previous" />
-  <input id="button2" style="font-size:18pt;" type="button" onclick="GotoGame(count+1)" value="&#8594;" title="Next" />
-  <input id="button3" style="font-size:18pt;" type="button" onclick="GotoGame(problems.length-1)" value="&#8608;" title="Last" />
-  <input id="button4" style="font-size:18pt;" type="button" onclick="RandomGame()" value="&#8599;" title="Random" />
+  <input id="button0" style="font-size:18pt;" type="button" value="&#8606;" title="First" />
+  <input id="button1" style="font-size:18pt;" type="button" value="&#8592;" title="Previous" />
+  <input id="button2" style="font-size:18pt;" type="button" value="&#8594;" title="Next" />
+  <input id="button3" style="font-size:18pt;" type="button" value="&#8608;" title="Last" />
+  <input id="button4" style="font-size:18pt;" type="button" value="&#8599;" title="Random" />
   <p/>
 
   <div id="msg"></div>
@@ -131,10 +36,8 @@
 
   <p/>
   <div id="config"></div>
-  <input id="bfont+" type="button" onclick="changeFont(4)" value="Font +" />
-  <input id="bfont-" type="button" onclick="changeFont(-4)" value="Font -" />
-
-  <script>ShowBoard();</script>
+  <input id="bfont+" type="button" value="Font +" />
+  <input id="bfont-" type="button" value="Font -" />
 </body>
 </html>
 
